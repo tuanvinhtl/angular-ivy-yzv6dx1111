@@ -1,0 +1,64 @@
+<hello name="{{ name }}"></hello>
+
+<div #el (scroll)="onScroll($event)" class="calendar">
+  <table class="table2 mqtable3">
+    <tbody>
+      <tr>
+        <th style="min-width:60px"></th>
+        <th class="day" *ngFor="let day of calendar">
+          {{ day | date: 'shortDate' }}
+        </th>
+      </tr>
+      <ng-container *ngFor="let booking of booking_order">
+        <tr
+          class="time-slot"
+          appRender
+          [range]="{booking, totalTime: totalTime, start: calendar[0]}"
+        >
+          <th class="heading-left">{{ booking.group_id }}</th>
+          <td
+            style="min-width:70px"
+            *ngFor="let day of calendar"
+            [attr.id]="day"
+            class="date-slot"
+          >
+            {{ day | date: 'shortTime' }}
+          </td>
+        </tr>
+      </ng-container>
+      <!-- <div class="overlay-slot"></div> -->
+    </tbody>
+    <div
+      #timeDelever
+      class="time-delever"
+      [ngStyle]="{ transform: 'translateX(' + $px + 'px)' }"
+    ></div>
+  </table>
+
+  <table class="table2 mqtable3" style="margin-top:50px">
+    <tbody>
+      <tr>
+        <th #timeOfDayDelever class="day" *ngFor="let hour of hours">
+          {{ hour | date: 'shortDate' }}
+        </th>
+      </tr>
+      <ng-container>
+        <tr class="time-slot">
+          <td
+            style="min-width:200px"
+            *ngFor="let hour of hours"
+            [attr.id]="hour"
+            class="date-slot hour"
+          >
+            {{ hour | date: 'shortTime' }}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+    <div
+      class="time-delever-minis"
+      [ngStyle]="{ transform: 'translateX(' + $pxTime + 'px)' }"
+    ></div>
+  </table>
+</div>
+<button (click)="start()">Start</button><button (click)="stop()">stop</button>
